@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>编辑用户</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../css/layui-v2.4.5/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/useredit.css">
+    <!-- <script src="../js/jquery-1.10.1.min.js"></script> -->
+    <!-- <script src="../js/redact2.js"></script> -->
+
+</head>
+
+<body class="layui-layout-body">
+    <div class="layui-layout layui-layout-admin">
+        <div class="layui-header">
+            <div class="layui-logo" style="color: #fff;font-weight: bold;">
+                <img src="../img/u80.png" style="margin-right: 10px;">后台管理系统</div>
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item welcome">
+                    <a href="javascript:;">
+                        未登录
+                    </a>
+                    <dl class="layui-nav-child">
+                        <!-- <dd>
+                              <a href="">基本资料</a>
+                            </dd>
+                            <dd>
+                              <a href="">安全设置</a>
+                            </dd> -->
+                    </dl>
+                </li>
+                <li class="layui-nav-item btnLogou">
+                    <a href="../../index.html">退出</a>
+                </li>
+                <script>
+                    (() => {
+                        /**
+                         * 细节：当localStore中无user时
+                        */
+                        var welcome = document.querySelector('.welcome');
+                        var user = localStorage.getItem('user');
+                        var user1 = sessionStorage.getItem('user');
+                        var welcome1 = document.querySelector('.btnLogou');
+                        if (!user) {
+                            user = {}
+                        } else {
+                            user = JSON.parse(user);
+                        }
+                        if (!user1) {
+                            user1 = {};
+                        } else {
+                            user1 = JSON.parse(user1);
+                        }
+
+
+                        // 不靠谱验证方式
+                        //    if(user._id){
+                        //         welcome.innerHTML = `
+                        //         ${user.username}，欢迎你，<button class="btn btn-outline-danger btn-sm btnLogout">退出</button>
+
+                        //        `
+                        //    }
+
+                        // token验证方式
+
+                        if (user.token) {
+                            // 判断本地是否有token
+                            var xhr = new XMLHttpRequest();
+                            xhr.onload = () => {
+                                var res = JSON.parse(xhr.responseText);
+                                if (res.status == 200) {
+                                    welcome.innerHTML = `${user.username}(${user.note})`;
+                                    console.log(user);
+                                    if (user.note == '普通会员') {
+                                        var none1 = document.querySelector('.disnone');
+                                        none1.style.display = 'none';
+                                    }
+                                }
+                            }
+                            xhr.open('post', '/tokenverify', true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.send('token=' + user.token);
+                        }
+                        else if (user1.token) {
+                            // 判断本地是否有token
+                            var xhr = new XMLHttpRequest();
+                            xhr.onload = () => {
+                                var res1 = JSON.parse(xhr.responseText);
+                                //    console.log(res);
+                                if (res1.status == 200) {
+                                    welcome.innerHTML = `${user1.username}(${user1.note})`;
+                                    console.log(user1);
+                                    if (user1.note == '普通会员') {
+                                        var none1 = document.querySelector('.disnone');
+                                        none1.style.display = 'none';
+                                    }
+                                }
+                            }
+                            xhr.open('post', '/tokenverify', true);
+                            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                            xhr.send('token=' + user1.token);
+                        }
+                        //    退出
+                        welcome1.onclick = () => {
+                            if (sessionStorage) {
+                                sessionStorage.removeItem('user');
+                            }
+
+                        }
+                    })();
+                </script>
+            </ul>
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+                <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a class="" href="javascript:;">商品管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="list.html">商品列表</a>
+                            </dd>
+                            <dd>
+                                <a href="add.html">添加商品</a>
+                            </dd>
+                            <dd>
+                                <a href="sort.html">商品分类</a>
+                            </dd>
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item disnone">
+                        <a href="javascript:;">用户管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="indexuser.html">用户列表</a>
+                            </dd>
+                            <dd>
+                                <a href="index2.html">添加用户</a>
+                            </dd>
+
+                        </dl>
+                    </li>
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">订单管理</a>
+                        <dl class="layui-nav-child">
+                            <dd>
+                                <a href="order.html">订单列表</a>
+                            </dd>
+                        </dl>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="layui-body">
+            <!-- 用户列表 -->
+            <div class="body2">
+                <div id="u1150" class="ax_default box_1">
+                    <img id="u1150_img" class="img " src="../img/u70.png">
+                </div>
+                <div id="u1151" class="ax_default box_2">
+                    <img id="u1150_img" class="img " src="../img/u70.png">
+                </div>
+
+                <div class="content" id="content">
+                    <ul>
+                        <li>
+                            &nbsp; &nbsp;&nbsp;用户名
+                            <div class="li1">
+                                <input type="text" id="username" placeholder="&nbsp;&nbsp;请输入用户名" style="width: 502px;height:25px;position: absolute;top:7px;border: none;">
+                            </div>
+                            <span id="span" style="float: right;font-size: 14px;color: #ccc;"></span>
+                        </li>
+                        <li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;昵称
+                            <div class="li1">
+                                <input type="text" id="niname" placeholder="&nbsp;&nbsp;请输入您的昵称" style="width: 502px;height:25px;position: absolute;top:7px;border: none;">
+                            </div>
+                        </li>
+                        <li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码
+                            <div class="li1">
+                                <input type="password" id="password" style="width: 502px;height:25px;position: absolute;top:7px;border: none;">
+                            </div>
+                            <span style="float: right;font-size: 14px;color: #ccc;">请填写6到12位密码</span>
+                        </li>
+                        <li>
+                            确认密码
+                            <div class="li1">
+                                <input type="password" id="password2" style="width: 502px;height:25px;position: absolute;top:7px;border: none;">
+                            </div>
+                            <span id="span2" style="float: right;font-size:14px;color: #ccc;"></span>
+                        </li>
+                        <li>
+                            <div style="width: 300px;">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话
+                                <div class="li2">
+                                    <input type="text" id="phonenum" style="width:149px;height:25px;position: absolute;top:7px;border: none;">
+                                </div>
+                            </div>
+                            <div style="width:220px;height:50px;position: absolute; top: 0;right: 220px;">
+                                性别
+                                <div class="li3">
+                                    <select id="sex" style="width: 160px;border:none;position:absolute; margin-top:7px;">
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱
+                            <div class="li1">
+                                <input type="email" id="email" style="width: 502px;height:25px;position: absolute;top:7px;border: none;">
+                            </div>
+                        </li>
+
+                        <li style="height: 200px;">
+                            等级备注
+                            <div class="li4">
+                                <textarea id="note" style="width:502px;height:85px;position: absolute;top:7px;border: none;"></textarea>
+                            </div>
+                        </li>
+                        <li id="AAA" style="width: 114px;height:44px; background: #2fad9f;margin:-40px 80px;border-radius: 2px;text-align: center;line-height: 44px;color: #fff;font-size: 18px;">
+                            确认
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-footer ">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+    </div>
+
+    <script src="../css/layui-v2.4.5/layui/layui.js " charset="utf-8 "></script> -->
+    <script>
+        //JavaScript代码区域
+        layui.use('element', function () {
+            var element = layui.element;
+        });
+
+
+
+
+        window.onload = function () {
+            var content = document.getElementById('content');
+            console.log(content);
+
+            let username = document.querySelector('#username'); //用户名
+            let niname = document.querySelector('#niname');  //昵称
+            console.log(niname);
+            let password = document.querySelector('#password');  //密码
+            let password2 = document.querySelector('#password2'); //确认密码
+            let span = document.querySelector('#span');  //用户名被占用提示
+            let phonenum = document.querySelector('#phonenum');  //电话
+            let gender = document.querySelector('#sex');  //性别
+            let email = document.querySelector('#email');  //邮件
+            let note = document.querySelector('#note');  //备注
+            //let btn = document.querySelector('#AAA');  //按钮
+            var btn = document.getElementsByClassName('AAA');
+            console.log(btn);
+
+
+            /*  数据渲染   */
+            function show(arr) {
+                document.getElementById('content').innerHTML = `
+                            <ul>
+                            <li>
+                                &nbsp; &nbsp;&nbsp;用户名
+                                <div class="li1">
+                                    <input type="text" id="username" placeholder="&nbsp;&nbsp;请输入用户名" style="width: 502px;height:25px;position: absolute;top:7px;border: none;" value="${arr[0].username}">
+                                </div>
+                                <span id="span" style="float: right;font-size: 14px;color: #ccc;"></span>
+                            </li>
+                            <li>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;昵称
+                                <div class="li1">
+                                    <input type="text" id="niname" placeholder="&nbsp;&nbsp;请输入您的昵称" style="width: 502px;height:25px;position: absolute;top:7px;border: none;" value="${arr[0].niname}">
+                                </div>
+                            </li>
+                            <li>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;密码
+                                <div class="li1">
+                                    <input type="password" id="password" style="width: 502px;height:25px;position: absolute;top:7px;border: none;" value="${arr[0].password}">
+                                </div>
+                                <span style="float: right;font-size: 14px;color: #ccc;">请填写6到12位密码</span>
+                            </li>
+                            <li>
+                                确认密码
+                                <div class="li1">
+                                    <input type="password" id="password2" style="width: 502px;height:25px;position: absolute;top:7px;border: none;" value="${arr[0].password}">
+                                </div>
+                                <span id="span2" style="float: right;font-size:14px;color: #ccc;"></span>
+                            </li>
+                            <li>
+                                <div style="width: 300px;">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;电话
+                                    <div class="li2">
+                                        <input type="text" id="phonenum" style="width:149px;height:25px;position: absolute;top:7px;border: none;" value="${arr[0].phonenum}">
+                                    </div>
+                                </div>
+                                <div style="width:220px;height:50px;position: absolute; top: 0;right: 220px;">
+                                    性别
+                                    <div class="li3">
+                                        <select id="sex" style="width: 160px;border:none;position:absolute; margin-top:7px;">
+                                            <option value="男">男</option>
+                                            <option value="女">女</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;邮箱
+                                <div class="li1">
+                                    <input type="email" id="email" style="width: 502px;height:25px;position: absolute;top:7px;border: none;" value="${arr[0].email}">
+                                </div>
+                            </li>
+
+                            <li style="height: 200px;">
+                                等级备注
+                                <div class="li4">
+                                    <textarea id="note" style="width:502px;height:85px;position: absolute;top:7px;border: none;" value="${arr[0].note}"></textarea>
+                                </div>
+                            </li>
+                            <li id="AAA" class="AAA" style="width: 114px;height:44px; background: #2fad9f;margin:-40px 80px;border-radius: 2px;text-align: center;line-height: 44px;color: #fff;font-size: 18px;">
+                                确认
+                            </li>
+                        </ul>
+                `;
+            }
+
+            //  ?id=${item.username}
+            // var str = Text2.join('');
+            // content.innerHTML += str;
+            // }
+
+            var kum = decodeURI(location.search); //接收字符串
+            var kum1 = kum.substring(1);
+            console.log(kum1);
+
+            var xhr = new XMLHttpRequest();
+            xhr.onload = () => {
+                if (xhr.status == 200) {
+                    var arr = JSON.parse(xhr.responseText);
+                    // console.log(res);
+                    show(arr);
+                    console.log(arr);
+                }
+            }
+            xhr.open('post', '/redact2', true);
+            // xhr.open('get', `/delete?username=${a}`, true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            let data = `username=${kum1}`;
+            xhr.send(data);
+
+
+            // let _username = username.value;
+            // console.log(_username);
+            // let _niname = niname.value;
+            // let _password = password.value;
+            // let _password2 = password2.value;
+            // let _phonenum = phonenum.value;
+            // let _gender = gender.value;
+            // let _email = email.value;
+            // let _note = note.value;
+
+            // content.onclick = function (ev) {
+            //     var ev = ev || window.event;  //浏览器兼容
+            //     event.stopPropagation(ev);
+            //     //console.log(ev.target.className);
+            //     // if (ev.target.className == 'AAA') {
+            //     //     var a = ev.target.parentNode.parentNode;
+            //     //     console.log(a);
+            //     //     a = a.children[2].innerHTML;
+            //     //     console.log(a);
+            //     // ev.target.onclick = function () {
+
+            //     // }
+            //     //  alert(666);
+            //     if (_username.trim() && _niname.trim() && _password.trim() && _password2.trim() && _phonenum.trim() && _gender.trim() && _email.trim() && _note.trim()) {
+            //         // 发起ajax请求
+            //         let xhr = new XMLHttpRequest();
+            //         // if (isOk == true && isOk2 == true) {
+
+            //         xhr.onload = () => {
+            //             if (xhr.status == 200) {
+            //                 let res = JSON.parse(xhr.responseText);
+            //                 // console.log(res);
+            //                 if (res.ok) {
+            //                     alert('用户修改成功！');
+            //                     // console.log('成功');
+            //                     location.href = 'indexuser.html';
+            //                 }
+            //             }
+            //         }
+            //     }
+            //     else {
+            //         alert("您输入的信息有误");
+            //     }
+            //     xhr.open('post', '/redact3', true);
+            //     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            //     let data = `username=${username}&niname=${niname}&password=${password}&password2=${password2}&phonenum=${phonenum}&gender=${gender}&email=${email}&note=${note}`;
+            //     xhr.send(data);
+            //     // console.log(data);
+
+            //     // }
+            //     // else {
+            //     //     alert('请填写完整');
+            //     // }
+
+
+            // }
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+
+</html>

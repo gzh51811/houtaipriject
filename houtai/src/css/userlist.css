@@ -1,0 +1,175 @@
+.layui-nav li {
+    text-align: center;
+}
+
+/*  内容主体区域  */
+
+.layui-body {
+    width: 82%;
+    height: 620px;
+    border-top: 2px solid rgb(226, 226, 226);
+    border-bottom: 2px solid rgb(226, 226, 226);
+    border-right: 2px solid rgb(226, 226, 226);
+    background: #fff;
+}
+
+.layui-body .body2 {
+max-height: 5000px;
+    /* height: 580px; */
+    background: rgba(242, 242, 242, 1);
+    margin-top: 35px;
+}
+
+.body2 .box_1 {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+}
+
+.box_1 img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 22px;
+    height: 22px;
+}
+
+.body2 .box_2 {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    right: 0;
+}
+
+.box_2 img {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 22px;
+    height: 22px;
+}
+
+.body2 .content {
+    position: absolute;
+    width: 96.5%;
+    height: 91%;
+    background: #fff;
+    margin-top: 20px;
+    margin-left: 22px;
+
+}
+
+.content .add {
+    width: 86px;
+    height: 38px;
+    background: #30ad9f;
+    border-radius: 2px;
+    margin-left: 15px;
+    margin-top: 15px;
+    color: #fff;
+    line-height: 38px;
+}
+
+.content .delete {
+    width: 86px;
+    height: 38px;
+    background: #fff;
+    border: 1px solid #666;
+    border-radius: 2px;
+    margin-left: 120px;
+    margin-top: -38px;
+    color: #666;
+    line-height: 38px;
+}
+
+table.imagetable {
+    font-family: verdana, arial, sans-serif;
+    font-size: 11px;
+    color: #333;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    text-align: center;
+    margin-top: 20px;
+    margin-left: 15px;
+}
+
+table.imagetable th {
+    background: #f2f2f2;
+    padding: 8px;
+    border: 2px solid #ccc;
+    font-weight: normal;
+}
+table.imagetable #list{
+    width: 1235px;
+}
+table.imagetable td {
+    background: #fff;
+    border: 2px solid #ccc;
+    padding: 8px;
+    font-weight: normal;
+}
+
+.t1 {
+    width: 38px;
+    height: 20px;
+}
+
+.t2 {
+    width: 27px;
+    height: 20px;
+}
+
+.t3 {
+    width: 103px;
+    height: 20px;
+}
+
+.t4 {
+    width: 108px;
+    height: 20px;
+}
+
+.t5 {
+    width: 105px;
+    height: 20px;
+}
+
+.t6 {
+    width: 100px;
+    height: 20px;
+}
+
+.t7 {
+    width: 100px;
+    height: 20px;
+}
+
+.t8 {
+    width: 100px;
+    height: 20px;
+}
+
+.t9 {
+    width: 100px;
+    height: 20px;
+}
+
+.t10 {
+    width: 100px;
+    height: 20px;
+}
+
+.t10 .td-caozuo {
+    width: 38px;
+    height: 30px;
+    background: #30ad9f;
+}
+
+.t10 .td-delete {
+    width: 38px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+    float: right;
+    margin-top: -30px;
+}
